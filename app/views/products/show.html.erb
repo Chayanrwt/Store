@@ -1,0 +1,28 @@
+<div class="container mt-4">
+  <h1 class="mb-3"><%= @product.name %></h1>
+
+  <p>
+    <%= link_to "Back", products_path, class: "btn btn-outline-secondary mb-3" %>
+  </p>
+
+  <section class="product text-center">
+    <% if @product.featured_image.attached? %>
+      <%= image_tag @product.featured_image, class: "img-fluid rounded shadow-sm mb-3", alt: @product.name %>
+    <% end %>
+  </section>
+
+  <section class="product-info card p-4 shadow-sm">
+    <% cache @product do %>
+      <p class="text-muted"><%= @product.description %></p>
+    <% end %>
+
+    <%= render "inventory", product: @product %>
+  </section>
+
+  <% if authenticated? %>
+    <div class="d-flex gap-2 mt-3">
+      <%= link_to "Edit", edit_product_path(@product), class: "btn btn-primary" %>
+      <%= button_to "Delete", @product, method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "btn btn-danger" %>
+    </div>
+  <% end %>
+</div>

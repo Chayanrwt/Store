@@ -1,0 +1,39 @@
+<div class="container mt-5">
+  <h1 class="mb-4 text-center text-primary"><%= t "Products" %></h1>
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <% unless authenticated? %>
+      <%= link_to "Login", new_session_path, class: "btn btn-outline-primary px-4 py-2" %>
+    <% end %>
+
+    <% if authenticated? %>
+      <%= link_to "New Product", new_product_path, class: "btn btn-success px-4 py-2" %>
+    <% end %>
+  </div>
+
+  <div id="products" class="row">
+    <% @products.each do |product| %>
+      <div class="col-md-4 col-sm-6 mb-4">
+        <div class="card h-100 shadow-lg border-0 rounded overflow-hidden">
+          
+          <% if product.featured_image.attached? %>
+            <%= image_tag product.featured_image, class: "card-img-top img-fluid", alt: product.name %>
+          <% else %>
+            <img src="https://via.placeholder.com/300" class="card-img-top img-fluid" alt="Placeholder">
+          <% end %>
+
+          <div class="card-body text-center">
+            <h5 class="card-title">
+              <%= link_to product.name, product, class: "text-decoration-none fw-bold text-dark" %>
+            </h5>
+            <p class="text-muted"><%= product.description.to_plain_text.truncate(50) %></p>
+          </div>
+
+          <div class="card-footer bg-white text-center border-0">
+            <%= link_to "View Product", product, class: "btn btn-outline-primary btn-sm px-3" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
